@@ -17,6 +17,7 @@ require('./passport')(passport);
 var index = require('./routes/index', passport);
 var users = require('./routes/users', passport);
 var signUp = require('./routes/sign-up', passport);
+var login = require('./routes/login', passport);
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/signup', signUp);
+app.use('/login', login);
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
