@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var User = require('../models/user.js');
 
 router.get('/', function(req, res, next) {
-  res.render('login', {});
+  res.render('transfer', {});
 });
 
 module.exports = router;

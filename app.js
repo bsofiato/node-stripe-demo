@@ -14,10 +14,11 @@ mongoose.connect('mongodb://localhost/test');
 
 require('./passport')(passport); 
 
-var index = require('./routes/index', passport);
-var users = require('./routes/users', passport);
 var signUp = require('./routes/sign-up', passport);
 var login = require('./routes/login', passport);
+var settings = require('./routes/settings', passport);
+var dashboard = require('./routes/dashboard', passport);
+var transfer = require('./routes/transfer', passport);
 
 var app = express();
 
@@ -34,10 +35,11 @@ app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+app.use('/', login);
 app.use('/signup', signUp);
-app.use('/login', login);
+app.use('/settings', settings);
+app.use('/dashboard', dashboard);
+app.use('/transfer', transfer);
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
