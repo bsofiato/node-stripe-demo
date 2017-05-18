@@ -1,4 +1,37 @@
 extends layout
 
 block content
-  span TODO
+  .panel.panel-default
+    .panel-heading Payment info
+    .panel-body
+      form(method="POST", action="payment")
+        .row
+          .col-xs-4
+            .form-group
+              label Number
+              input.form-control(name="number")
+            .form-group
+              label CVV
+              input.form-control(name="cvv")
+            .form-group
+              label Expiry date
+              input.form-control(placeholder="MM/YY", name="cvv")
+
+              input(type="hidden", name="token")
+              input(type="hidden", name="brand")
+              input(type="hidden", name="last4")
+          .col-xs-8
+            span TODO DADOS ANTIGOS
+    .panel-footer
+       button.btn.btn-success.btn-lg(type="submit", onclick="tokenizePayment()") Update
+
+  .panel.panel-default
+    .panel-heading Payout Info
+    .panel-body
+      form(method="POST", action="payout")
+
+  script.
+    function tokenizePayment() {
+      // Just isolates the view-related code from the tokenizing-related
+      alert("AHAHAHA");
+    }
