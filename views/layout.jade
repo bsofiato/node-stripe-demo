@@ -8,6 +8,8 @@ html
     script(type='text/javascript', src='/js/jquery.js')
     script(type='text/javascript', src='/js/bootstrap.js')
   body
-    block content
+    .container-fluid
+      include navbar.jade
+      block content
   script.
     Stripe.setPublishableKey('pk_test_2LSscfE0eJxUCOeWtrks6AXp')

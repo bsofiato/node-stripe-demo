@@ -6,11 +6,10 @@ var User = require('../models/user.js');
 var authorization = require('./authorization')
 
 router.get('/', authorization, (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    res.redirect('/');
-  } else {
-    res.render('transfer', {});
-  }
+  res.render('transfer', { 
+    authenticated: true,
+    user: req.user 
+  });
 });
 
 module.exports = router;

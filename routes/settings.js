@@ -6,7 +6,10 @@ var User = require('../models/user.js');
 var authorization = require('./authorization')
 
 router.get('/', authorization, (req, res, next) => {
-  res.render('settings', {});
+  res.render('settings', { 
+    authenticated: true,
+    user: req.user 
+  });
 });
 
 module.exports = router;
