@@ -4,7 +4,11 @@ var mongoose = require('mongoose');
 var User = require('../models/user.js');
 
 router.get('/', function(req, res, next) {
-  res.render('dashboard', {});
+  if (!req.isAuthenticated()) {
+    res.redirect('/');
+  } else {
+    res.render('dashboard', {});
+  }
 });
 
 module.exports = router;
