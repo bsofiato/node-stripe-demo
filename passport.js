@@ -6,11 +6,27 @@ module.exports = (passport) => {
      done(null, user.email);
   });
 
-  passport.deserializeUser(function(id, done) {
+  passport.deserializeUser((id, done) =>{
     User.findOne({email: id}, (err, user) => {
       done(err, user);
     });
   });
+
+  passport.use('local-login', new LocalStrategy({
+    usernameField : 'email',
+    passwordField : 'password',
+    passReqToCallback : true // allows us to pass back the entire request to the callback
+  }, (req, email, password, done) => { 
+    User.findOne({email:  email }, (err, user) => {
+      if (err) {
+        return done(err);
+      }
+      if (!user || !user.validPassword(password)) {
+        return done(null, false, req.flash('message', 'Wrong user or password.')); 
+      }
+      return done(null, user);
+    })
+  }));
 
   passport.use('local-signup', new LocalStrategy({
     usernameField : 'email',

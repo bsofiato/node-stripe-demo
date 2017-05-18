@@ -14,12 +14,6 @@ mongoose.connect('mongodb://localhost/test');
 
 require('./passport')(passport); 
 
-var signUp = require('./routes/sign-up', passport);
-var login = require('./routes/login', passport);
-var settings = require('./routes/settings', passport);
-var dashboard = require('./routes/dashboard', passport);
-var transfer = require('./routes/transfer', passport);
-
 var app = express();
 
 // view engine setup
@@ -30,30 +24,25 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', login);
-app.use('/signup', signUp);
-app.use('/settings', settings);
-app.use('/dashboard', dashboard);
-app.use('/transfer', transfer);
-app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
-app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
-app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
-
-app.use(session({ secret: 'session-secret' })); 
+app.use(session({ 
+  secret: 'session-secret',
+  resave: true,
+  saveUninitialized: true  
+})); 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash());
 
-app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect : '/dashboard', // redirect to the secure profile section
-  failureRedirect : '/signup', // redirect back to the signup page if there is an error
-  failureFlash : true // allow flash messages
-}));
+var routes = require('./routes/routes')(app, passport); 
+
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

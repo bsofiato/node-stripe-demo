@@ -1,6 +1,6 @@
 authorizationMiddleware = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    res.redirect('/');
+    res.redirect('/login');
   } else {
     next();
   }
