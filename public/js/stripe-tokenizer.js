@@ -1,3 +1,6 @@
 function doTokenizePayment(number, ccv, expiryDate) {
-   alert("HAHAHAHA");
+  return new Promise(function(resolve, reject) {
+    resolve({});
+  });
 }
+
